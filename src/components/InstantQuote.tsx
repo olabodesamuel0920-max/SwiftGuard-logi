@@ -202,12 +202,12 @@ export default function InstantQuote() {
               </span>
               
               <div className="my-6">
-                <span className="text-sm font-space text-[#c8d0e2] block">
-                  Estimated quote pending confirmation
+                <span className="text-xs font-space text-[#c8d0e2] block">
+                  Demonstration Estimate Only
                 </span>
                 {estimatedPrice && (
-                  <strong className="block text-3xl md:text-4xl font-space font-bold text-white mt-3">
-                    ₦ {estimatedPrice.toLocaleString()} *
+                  <strong className="block text-xl md:text-2xl font-space font-bold text-white mt-3">
+                    Demo estimate: ₦ {estimatedPrice.toLocaleString()}
                   </strong>
                 )}
               </div>
@@ -242,8 +242,8 @@ export default function InstantQuote() {
               </div>
 
               <div className="mt-6">
-                <p className="text-[10px] text-[#8190ac] leading-relaxed mb-4 text-center">
-                  * Note: The calculated price above is for demonstration purposes only. Final pricing is confirmed by our dispatch manager on WhatsApp.
+                <p className="text-[10px] text-amber-400/90 leading-relaxed mb-4 text-center font-semibold">
+                  For interface demonstration only. Final pricing is confirmed by Swift Guard Logistics.
                 </p>
                 <a
                   href="/book"

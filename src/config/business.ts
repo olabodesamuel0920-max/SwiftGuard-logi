@@ -8,6 +8,7 @@ export interface ServiceInfo {
 
 export interface TrackingStep {
   status: string;
+  text?: string;
   eta: string;
   rider: string;
   time: string;
@@ -49,22 +50,17 @@ export const businessConfig: BusinessConfig = {
   whatsAppDisplay: "09137231057",
   whatsAppDisplayInt: "+2349137231057",
   whatsAppBaseUrl: "https://wa.me/2349137231057",
-  emailPlaceholder: "dispatch@swiftguardlogistics.com",
-  addressPlaceholder: "Plot 12 Cyber Plaza, Command District, Swift City",
-  operatingCityPlaceholder: "Command District, Swift City",
+  emailPlaceholder: "To be confirmed",
+  addressPlaceholder: "To be confirmed",
+  operatingCityPlaceholder: "To be confirmed",
   serviceAreas: [
-    "Central Command District",
-    "West Wing Hub",
-    "East Industrial Node",
-    "North Gateway Zone",
-    "South Coast Terminal",
-    "Night Owl Secure Transit Zone"
+    "Service details confirmed during booking"
   ],
-  operatingHours: "24/7 Support (Standard services run 7:00 AM - 9:00 PM)",
-  nightOwlHours: "9:00 PM - 6:00 AM (Priority zones only)",
+  operatingHours: "To be confirmed",
+  nightOwlHours: "Service details confirmed during booking",
   socialLinks: [
-    { platform: "Twitter", url: "https://twitter.com/swiftguard" },
-    { platform: "Instagram", url: "https://instagram.com/swiftguard" }
+    { platform: "Twitter", url: "#" },
+    { platform: "Instagram", url: "#" }
   ],
   restrictedItemsNotice: "For security and regulatory compliance, Swift Guard Logistics does NOT transport: cash, jewelry, luxury watches, ammunition/weapons, flammable materials, illegal substances, or fragile glass items without special clearance.",
   pricingRules: {
@@ -118,6 +114,7 @@ export const businessConfig: BusinessConfig = {
       },
       {
         status: "DELIVERED SAFELY",
+        text: "Delivered",
         eta: "0 MIN",
         rider: "SG-07",
         time: "12:44 PM",
@@ -166,7 +163,7 @@ export const businessConfig: BusinessConfig = {
       copy: "Structured daily dispatch support for vendors, stores and growing teams.",
       icon: "▤",
       features: [
-        "Multi-drop delivery requests",
+        "Multi-drop delivery routes",
         "End-of-day dispatch logs",
         "Dedicated vendor portal access"
       ]

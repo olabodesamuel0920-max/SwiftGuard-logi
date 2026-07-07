@@ -84,15 +84,18 @@ export default function Hero() {
           <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#91aae1]/16 max-w-lg">
             <div className="border-l border-[#91aae1]/16 pl-4">
               <strong className="block font-space text-lg md:text-2xl text-white font-bold">8</strong>
-              <span className="text-[10px] text-slate-400">Core Services</span>
+              <span className="text-[9px] text-slate-400 block">Core Services</span>
+              <span className="text-[8px] text-amber-500/90 font-bold block uppercase tracking-wider">Demo Config</span>
             </div>
             <div className="border-l border-[#91aae1]/16 pl-4">
-              <strong className="block font-space text-lg md:text-2xl text-white font-bold">24/7</strong>
-              <span className="text-[10px] text-slate-400">Night Owl Patrol</span>
+              <strong className="block font-space text-lg md:text-2xl text-white font-bold">WhatsApp</strong>
+              <span className="text-[9px] text-slate-400 block">Booking Match</span>
+              <span className="text-[8px] text-amber-500/90 font-bold block uppercase tracking-wider">Manual Dispatch</span>
             </div>
             <div className="border-l border-[#91aae1]/16 pl-4">
               <strong className="block font-space text-lg md:text-2xl text-white font-bold">Demo</strong>
-              <span className="text-[10px] text-slate-400">Interface Preview</span>
+              <span className="text-[9px] text-slate-400 block">Interface System</span>
+              <span className="text-[8px] text-amber-500/90 font-bold block uppercase tracking-wider">Preview Only</span>
             </div>
           </div>
         </div>

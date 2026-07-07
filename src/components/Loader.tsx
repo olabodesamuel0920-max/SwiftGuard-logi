@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import LogoMark from "./LogoMark";
+import { useTheme } from "./ThemeProvider";
 
 const logDatabase = [
   "BOOT SEQUENCE INITIATED...",
@@ -15,81 +16,136 @@ const logDatabase = [
 ];
 
 export default function Loader() {
+  const { reducedMotion, batterySaver } = useTheme();
   const [progress, setProgress] = useState(0);
   const [logs, setLogs] = useState<string[]>([]);
-  const [complete, setComplete] = useState(false);
+  const [complete, setComplete] = useState(true); // default complete until client mount
+  const [showSkip, setShowSkip] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Declare handleComplete before the effect that references it
+  const handleComplete = useCallback(() => {
+    try {
+      sessionStorage.setItem("sg_loader_completed", "true");
+    } catch { /* sessionStorage may be unavailable */ }
+    setTimeout(() => {
+      setComplete(true);
+    }, 0);
+    document.documentElement.setAttribute("data-app-ready", "true");
+  }, []);
 
   useEffect(() => {
-    // Scroll progress from 0 to 100
-    const duration = 2000; // 2 seconds total loading
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
+
+    // 1. Session check to avoid replays
+    try {
+      const alreadyCompleted = sessionStorage.getItem("sg_loader_completed") === "true";
+      if (alreadyCompleted || reducedMotion) {
+        setTimeout(() => {
+          setComplete(true);
+        }, 0);
+        document.documentElement.setAttribute("data-app-ready", "true");
+        return;
+      }
+    } catch {
+      // Fallback if sessionStorage fails
+      setTimeout(() => {
+        setComplete(true);
+      }, 0);
+      document.documentElement.setAttribute("data-app-ready", "true");
+      return;
+    }
+
+    // Un-complete to run loader
+    setTimeout(() => {
+      setComplete(false);
+    }, 0);
+
+    // 2. Hard timeout at 2.5 seconds
+    const hardTimeout = setTimeout(() => {
+      handleComplete();
+    }, 2500);
+
+    // 3. Show Skip button after 1.2 seconds
+    const skipTimer = setTimeout(() => {
+      setShowSkip(true);
+    }, 1200);
+
+    // 4. Progress bar increments (completes in ~1.8 seconds)
+    const duration = 1800;
     const intervalTime = 30;
     const steps = duration / intervalTime;
     const increment = 100 / steps;
 
-    const timer = setInterval(() => {
+    const progressTimer = setInterval(() => {
       setProgress((prev) => {
         const next = Math.min(prev + increment, 100);
         if (next >= 100) {
-          clearInterval(timer);
-          setTimeout(() => setComplete(true), 400); // Wait briefly before fading
+          clearInterval(progressTimer);
+          setTimeout(handleComplete, 200);
         }
         return next;
       });
     }, intervalTime);
 
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    // Progressively push console logs
-    const logInterval = 220;
-    const timer = setInterval(() => {
+    // 5. Console logs scroll
+    const logInterval = 200;
+    const logsTimer = setInterval(() => {
       setLogs((prev) => {
         if (prev.length < logDatabase.length) {
           return [...prev, logDatabase[prev.length]];
         }
-        clearInterval(timer);
+        clearInterval(logsTimer);
         return prev;
       });
     }, logInterval);
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => {
+      clearTimeout(hardTimeout);
+      clearTimeout(skipTimer);
+      clearInterval(progressTimer);
+      clearInterval(logsTimer);
+    };
+  }, [reducedMotion, handleComplete]);
 
-  if (complete) return null;
+  if (!mounted || complete) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#050610] text-[#f7f9ff] font-space select-none"
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#050610] text-[#f7f9ff] font-space select-none p-4"
       style={{
-        transition: "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+        transition: "opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      {/* Glow ambient background */}
-      <div className="absolute w-[450px] h-[450px] rounded-full bg-indigo-600/10 filter blur-[80px] pointer-events-none" />
+      {/* Glow background - skipped in battery saver */}
+      {!batterySaver && (
+        <div className="absolute w-[320px] md:w-[450px] h-[320px] md:h-[450px] rounded-full bg-indigo-600/10 filter blur-[80px] pointer-events-none" />
+      )}
 
-      <div className="relative flex flex-col items-center max-w-sm w-full px-8">
-        {/* Animated Brand Shield Logo */}
-        <div className="mb-8 animate-pulse">
-          <LogoMark size={72} />
+      <div className="relative flex flex-col items-center w-full max-w-[360px] mx-auto px-4">
+        {/* Brand Shield Logo */}
+        <div className="mb-6 animate-pulse">
+          <LogoMark size={64} />
         </div>
 
         {/* Brand Header */}
-        <div className="text-center mb-6">
-          <h1 className="text-xl font-bold tracking-widest text-white uppercase">
+        <div className="text-center mb-5">
+          <h1 className="text-lg font-bold tracking-widest text-white uppercase leading-none">
             Swift Guard
           </h1>
-          <p className="text-[10px] tracking-[0.48em] text-[#aab4ce] uppercase mt-1">
+          <p className="text-[9px] tracking-[0.4em] text-[#aab4ce] uppercase mt-1.5 leading-none">
             Logistics Command
           </p>
         </div>
 
         {/* Boot Logs Terminal */}
-        <div className="w-full h-32 bg-[#090b19]/80 border border-[#91aae1]/16 rounded-xl p-4 overflow-y-auto mb-8 font-mono text-[9px] text-[#9da9c4] leading-relaxed flex flex-col justify-end">
+        <div className="w-full h-32 bg-[#090b19]/80 border border-[#91aae1]/16 rounded-xl p-4 overflow-y-auto mb-6 font-mono text-[9px] text-[#9da9c4] leading-relaxed flex flex-col justify-end max-w-full">
           {logs.map((log, idx) => (
             <div key={idx} className="flex gap-2">
               <span className="text-indigo-400 select-none">&gt;</span>
-              <span>{log}</span>
+              <span className="break-all">{log}</span>
             </div>
           ))}
           {logs.length < logDatabase.length && (
@@ -100,9 +156,9 @@ export default function Loader() {
           )}
         </div>
 
-        {/* Progress Bar & Numeric Indicator */}
-        <div className="w-full">
-          <div className="flex justify-between items-center text-[10px] text-[#9da9c4] mb-2 tracking-wider">
+        {/* Progress Bar */}
+        <div className="w-full mb-6">
+          <div className="flex justify-between items-center text-[9px] text-[#9da9c4] mb-2 tracking-wider">
             <span>COMMAND LINK STATUS:</span>
             <span className="font-bold text-white">{Math.round(progress)}%</span>
           </div>
@@ -112,6 +168,18 @@ export default function Loader() {
               style={{ width: `${progress}%` }}
             />
           </div>
+        </div>
+
+        {/* Skip button - appears after 1.2 seconds */}
+        <div className="h-8 flex items-center justify-center">
+          {showSkip && (
+            <button
+              onClick={handleComplete}
+              className="text-[9px] font-bold tracking-widest uppercase border border-[#91aae1]/16 bg-white/5 text-white hover:bg-white/10 hover:border-[#91aae1]/30 px-3 py-1.5 rounded-lg transition-all focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            >
+              Skip Boot Sequence
+            </button>
+          )}
         </div>
       </div>
     </div>

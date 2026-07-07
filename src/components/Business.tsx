@@ -91,22 +91,22 @@ export default function Business() {
                   </span>
                 </div>
                 <span className="text-[9px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
-                  LIVE STATUS
+                  DEMO OPERATIONS STATUS
                 </span>
               </div>
 
               {/* KPIs Grid */}
               <div className="grid grid-cols-3 gap-3 mb-6">
                 <div className="p-3 bg-white/3 border border-[#91aae1]/10 rounded-xl">
-                  <span className="block text-[8px] text-[#788caf] tracking-wider uppercase font-semibold">Active Dispatch</span>
+                  <span className="block text-[8px] text-[#788caf] tracking-wider uppercase font-semibold">Demo Active Dispatch</span>
                   <strong className="block text-white text-base md:text-xl font-space mt-1 font-bold">18</strong>
                 </div>
                 <div className="p-3 bg-white/3 border border-[#91aae1]/10 rounded-xl">
-                  <span className="block text-[8px] text-[#788caf] tracking-wider uppercase font-semibold">Completed</span>
+                  <span className="block text-[8px] text-[#788caf] tracking-wider uppercase font-semibold">Demo Completed</span>
                   <strong className="block text-white text-base md:text-xl font-space mt-1 font-bold">143</strong>
                 </div>
                 <div className="p-3 bg-white/3 border border-[#91aae1]/10 rounded-xl">
-                  <span className="block text-[8px] text-[#788caf] tracking-wider uppercase font-semibold">Success Rate</span>
+                  <span className="block text-[8px] text-[#788caf] tracking-wider uppercase font-semibold">Demo Success Rate</span>
                   <strong className="block text-emerald-400 text-base md:text-xl font-space mt-1 font-bold">97%</strong>
                 </div>
               </div>
@@ -153,12 +153,12 @@ export default function Business() {
 
             {/* Small Floating Cards */}
             <div className="absolute top-[-15px] right-[-15px] glass border border-[#91aae1]/19 rounded-2xl p-3 bg-[#0c0e22]/90 shadow-xl hidden md:block">
-              <span className="block text-[8px] text-[#7890ba] uppercase tracking-wider">Avg. Dispatch ETA</span>
+              <span className="block text-[8px] text-[#7890ba] uppercase tracking-wider">Demo Dispatch ETA</span>
               <strong className="block text-white text-base font-space mt-1">22 MIN</strong>
             </div>
 
             <div className="absolute bottom-[-15px] left-[-15px] glass border border-[#91aae1]/19 rounded-2xl p-3 bg-[#0c0e22]/90 shadow-xl hidden md:block">
-              <span className="block text-[8px] text-[#7890ba] uppercase tracking-wider">Riders Online</span>
+              <span className="block text-[8px] text-[#7890ba] uppercase tracking-wider">Simulated Rider Nodes</span>
               <strong className="block text-[#70ffc6] text-xs font-space mt-1">12 STATIONS active</strong>
             </div>
           </div>

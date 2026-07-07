@@ -75,7 +75,7 @@ export default function ContactSection() {
                     Call Center
                   </span>
                   <a href={businessConfig.callLink} className="text-white hover:text-indigo-400 transition-colors">
-                    {businessConfig.callDisplay} (International: {businessConfig.whatsAppDisplayInt})
+                    {businessConfig.callDisplay} (International: +2349030427190)
                   </a>
                 </div>
               </div>

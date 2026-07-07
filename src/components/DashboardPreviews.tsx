@@ -75,9 +75,9 @@ export default function DashboardPreviews() {
           
           {/* Header watermark */}
           <div className="flex justify-between items-center text-[9px] text-[#8ea2c9] border-b border-[#91aae1]/10 pb-4 mb-6">
-            <span>PORTAL REVENUE PREVIEW</span>
+            <span>PORTAL INTERFACE PREVIEW</span>
             <span className="font-bold tracking-widest font-mono text-indigo-400">
-              [DEMO DATA &mdash; DESIGN PREVIEW]
+              [DEMO DATA &mdash; INTERFACE PREVIEW]
             </span>
           </div>
 
@@ -150,10 +150,10 @@ export default function DashboardPreviews() {
                 </span>
                 <div className="flex gap-3 text-[10px]">
                   <span className="flex items-center gap-1.5 bg-white/3 border border-[#91aae1]/10 px-2.5 py-1 rounded-lg text-white">
-                    <MapPin className="w-3 h-3 text-blue-400" /> Office (Command District)
+                    <MapPin className="w-3 h-3 text-blue-400" /> Demo Office (District)
                   </span>
                   <span className="flex items-center gap-1.5 bg-white/3 border border-[#91aae1]/10 px-2.5 py-1 rounded-lg text-white">
-                    <MapPin className="w-3 h-3 text-pink-400" /> Warehouse (Substation North)
+                    <MapPin className="w-3 h-3 text-pink-400" /> Demo Substation (North)
                   </span>
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function DashboardPreviews() {
                 <div className="space-y-3">
                   <h4 className="font-space text-sm font-bold text-white mb-2 flex items-center gap-2">
                     <Compass className="w-4 h-4 text-violet-400" />
-                    Rider Unit Fleet
+                    Simulated Rider Fleet
                   </h4>
                   <div className="space-y-2">
                     {mockAdminRiders.map((rider) => (
@@ -190,7 +190,7 @@ export default function DashboardPreviews() {
                 <div className="space-y-3">
                   <h4 className="font-space text-sm font-bold text-white mb-2 flex items-center gap-2">
                     <ListFilter className="w-4 h-4 text-pink-400" />
-                    Dispatch Core Logs
+                    Simulated Dispatch Logs
                   </h4>
                   <div className="bg-[#0b0f22] border border-[#91aae1]/12 rounded-xl p-4 h-[164px] overflow-y-auto font-mono text-[9px] text-[#9da9c4] space-y-2">
                     {mockAdminLogs.map((log, idx) => (

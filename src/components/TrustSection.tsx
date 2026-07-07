@@ -1,28 +1,27 @@
 import React from "react";
-import { ShieldCheck, Clock, Map, Moon } from "lucide-react";
-import { businessConfig } from "@/config/business";
+import { ShieldAlert, Route, MapPin, Moon } from "lucide-react";
 
 export default function TrustSection() {
   const pillars = [
     {
-      icon: <ShieldCheck className="w-8 h-8 text-indigo-400" />,
-      title: "Security Shield Verification",
-      description: "Our package verification ensures all items match transport compliance prior to rider dispatch. We maintain a strict no-contraband carriage policy.",
+      icon: <ShieldAlert className="w-8 h-8 text-indigo-400" />,
+      title: "Prohibited Cargo Guidelines",
+      description: "Standard safety check guidelines apply to all dispatch requests to ensure compliance. We maintain strict carriage restrictions on valuables and dangerous items.",
     },
     {
-      icon: <Clock className="w-8 h-8 text-cyan-400" />,
-      title: "Punctual Coordination",
-      description: "Operated under the motto 'On time, every time', we coordinate delivery dispatch windows and route paths to optimize parcel transit times.",
+      icon: <Route className="w-8 h-8 text-cyan-400" />,
+      title: "Dispatch Route Planning",
+      description: "Our logistics coordination plans dispatch windows and route paths to optimize parcel transit timelines.",
     },
     {
-      icon: <Map className="w-8 h-8 text-[#70ffc6]" />,
-      title: "Logistics Mission Checkpoints",
-      description: "Step-by-step dispatch console updates keep you aware of parcel location milestones, avoiding the ambiguity of standard logistics services.",
+      icon: <MapPin className="w-8 h-8 text-[#70ffc6]" />,
+      title: "Terminal Checkpoints Demo",
+      description: "View simulated progress milestone checkpoints tracking package transit stages in our terminal preview.",
     },
     {
       icon: <Moon className="w-8 h-8 text-pink-400" />,
-      title: "Night Owl Safety Patrol",
-      description: `For late-hour logistics support (from ${businessConfig.nightOwlHours}), riders utilize designated safety corridors and check-ins.`,
+      title: "Nocturnal Dispatch Options",
+      description: "After-hours errands and delivery logistics parameters are evaluated and confirmed on demand during order booking.",
     },
   ];
 
@@ -31,13 +30,13 @@ export default function TrustSection() {
       <div className="max-w-[1240px] mx-auto px-4 md:px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="font-space text-[10px] tracking-[0.2em] text-indigo-400 uppercase font-semibold">
-            SECURE ASSURANCES
+            DISPATCH PRINCIPLES
           </span>
           <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
-            Built for Secure Mobility
+            Operational Guidelines
           </h2>
           <p className="text-slate-400 text-sm mt-3">
-            Our operational framework prioritizes transparency, route planning, and safe cargo handling.
+            Our dispatch coordinates route mapping, standard safety checks, and safe cargo handling.
           </p>
         </div>
 

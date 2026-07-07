@@ -114,7 +114,7 @@ function TrackingFormAndConsole() {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-space text-xs font-bold text-white tracking-wider">
-              DISPATCH SIGNAL ACTIVE
+              DEMO DISPATCH SIGNAL ACTIVE
             </span>
           </div>
           <span className="font-mono text-xs text-[#aab7d3] bg-white/5 px-3 py-1 rounded-lg border border-[#91aae1]/8">

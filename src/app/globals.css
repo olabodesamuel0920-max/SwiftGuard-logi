@@ -185,3 +185,44 @@ body.night-mode {
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
 }
+
+/* ========================
+   MOBILE OVERFLOW PREVENTION
+   ======================== */
+html {
+  overflow-x: hidden;
+}
+
+/* All flex and grid children must not grow beyond viewport */
+*,
+::before,
+::after {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Prevent any element from extending past viewport */
+section,
+div,
+main,
+footer,
+header,
+nav {
+  max-width: 100%;
+}
+
+/* Safe text wrapping on all elements */
+p, span, a, strong, b, h1, h2, h3, h4, h5, h6, li, td, th, label, button {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Font mono elements must wrap safely */
+.font-mono,
+code,
+pre {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  max-width: 100%;
+}
+

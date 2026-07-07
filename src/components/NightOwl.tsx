@@ -44,13 +44,13 @@ export default function NightOwl() {
           {/* Badges list */}
           <div className="flex flex-wrap gap-2.5">
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-[#c9baff] text-[10px] font-space tracking-wider uppercase font-semibold">
-              <Shield className="w-3 h-3" /> Late Hour Check-ins
+              <Shield className="w-3 h-3" /> Late Dispatch Options
             </span>
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-[#c9baff] text-[10px] font-space tracking-wider uppercase font-semibold">
-              <MapPin className="w-3 h-3" /> Approved Safe Corridors
+              <MapPin className="w-3 h-3" /> Zone Validation
             </span>
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-[#c9baff] text-[10px] font-space tracking-wider uppercase font-semibold">
-              <Sparkles className="w-3 h-3" /> Dedicated Support
+              <Sparkles className="w-3 h-3" /> Dispatch Routing
             </span>
           </div>
 

@@ -21,12 +21,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Read initial settings from localStorage on client-side mount
-    const savedNight = localStorage.getItem("sg_night_mode") === "true";
-    const savedReduced = localStorage.getItem("sg_reduced_motion") === "true";
-    const savedBattery = localStorage.getItem("sg_battery_saver") === "true";
+    let savedNight = localStorage.getItem("sg_night_mode") === "true";
+    let savedReduced = localStorage.getItem("sg_reduced_motion") === "true";
+    let savedBattery = localStorage.getItem("sg_battery_saver") === "true";
 
     // System preferences as fallbacks
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Check search params for developer overrides (useful for screenshots)
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("theme") === "night") savedNight = true;
+      if (params.get("saver") === "true") savedBattery = true;
+      if (params.get("motion") === "reduced") savedReduced = true;
+    }
 
     // Use a microtask/timer to break synchronous execution check
     setTimeout(() => {
