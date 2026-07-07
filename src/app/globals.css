@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@theme {
+  --font-space: var(--font-space-grotesk);
+  --font-sans: var(--font-dm-sans);
+  
+  --color-bg-navy: #050610;
+  --color-bg-navy-dark: #03040b;
+  --color-panel-glass: rgba(13, 16, 34, 0.62);
+  --color-cyan-glow: #7ce7ff;
+  --color-emerald-glow: #70ffc6;
+  
+  --animate-spin-slow: spin 24s linear infinite;
+  --animate-spin-reverse: spin 24s linear infinite reverse;
+  --animate-slide-in: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-in: scaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  --animate-fade-in: fadeIn 0.25s ease-out forwards;
+}
+
+:root {
+  --bg: #050610;
+  --bg-2: #090b19;
+  --panel: rgba(13, 16, 34, 0.62);
+  --panel-strong: rgba(11, 14, 31, 0.88);
+  --text: #f7f9ff;
+  --muted: #9da9c4;
+  --line: rgba(145, 170, 225, 0.16);
+  
+  --blue: #2b8cff;
+  --violet: #7048ff;
+  --pink: #ff2ca8;
+  
+  --cyan: #7ce7ff;
+  --success: #70ffc6;
+  --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+  --radius: 28px;
+}
+
+/* Night Mode class override */
+.night-mode {
+  --blue: #5fa7ff;
+  --violet: #8c54ff;
+  --pink: #d43bff;
+  --bg: #03040b;
+  --bg-2: #070718;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% -20%, #10183a 0%, #060817 35%, var(--bg) 70%);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body.night-mode {
+  background: radial-gradient(circle at 70% 0%, #1b1245 0%, #070718 40%, var(--bg) 74%);
+}
+
+/* Glassmorphism Panels */
+.glass {
+  background: linear-gradient(145deg, rgba(23, 27, 56, 0.72), rgba(8, 11, 26, 0.55));
+  border: 1px solid rgba(171, 190, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), var(--shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+/* Noise overlay */
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+/* Primary Button Styling to match prototype */
+.btn {
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  background: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: linear-gradient(105deg, var(--blue), var(--violet) 52%, var(--pink));
+  color: white;
+  box-shadow: 0 12px 34px rgba(106, 71, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 18px 46px rgba(106, 71, 255, 0.42);
+}
+
+.btn-ghost {
+  border: 1px solid rgba(170, 190, 255, 0.2);
+  background: rgba(255, 255, 255, 0.035);
+  color: white;
+}
+
+.btn.compact {
+  padding: 12px 17px;
+  font-size: 13px;
+  border-radius: 14px;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-route-flow {
+  animation: routeFlow 2s linear infinite;
+}
+
+@keyframes routeFlow {
+  to {
+    stroke-dashoffset: -60;
+  }
+}
+
+@keyframes road-scroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -120px 0;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.reduced-motion *, .reduced-motion ::before, .reduced-motion ::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
