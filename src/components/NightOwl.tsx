@@ -28,7 +28,7 @@ export default function NightOwl() {
           <div>
             <span className="font-space text-[10px] tracking-[0.2em] text-[#c9baff] uppercase font-semibold flex items-center gap-2">
               <Moon className="w-3.5 h-3.5 text-violet-400" />
-              NIGHT OWL SERVICE
+              NIGHT OWL DELIVERY AVAILABLE
             </span>
             <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
               The City May<br />

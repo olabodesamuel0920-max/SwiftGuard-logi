@@ -203,7 +203,7 @@ export default function InstantQuote() {
               
               <div className="my-6">
                 <span className="text-xs font-space text-[#c8d0e2] block">
-                  Demonstration Estimate Only
+                  Estimated quote pending confirmation
                 </span>
                 {estimatedPrice && (
                   <strong className="block text-xl md:text-2xl font-space font-bold text-white mt-3">
