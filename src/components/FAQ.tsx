@@ -14,7 +14,7 @@ export default function FAQ() {
     },
     {
       q: "Is there real-time live GPS tracking?",
-      a: "No. Our command terminal utilizes dispatch checkpoint logging. When the package completes a dispatch stage, the system updates the terminal dashboard in real-time. We do not represent our simulator map marker as physical live GPS tracking.",
+      a: "No. Our tracking portal utilizes dispatch checkpoint logging. When the package completes a dispatch stage, the system updates the dashboard in real-time. We do not represent our simulator map marker as physical live GPS tracking.",
     },
     {
       q: "What items are restricted from transport?",
@@ -26,7 +26,7 @@ export default function FAQ() {
     },
     {
       q: "How do I schedule a Night Owl delivery?",
-      a: `Our Night Owl dispatch operates between ${businessConfig.nightOwlHours} in priority zones. Night Owl orders require advance scheduling through the booking modal or direct contact with our night operations manager on WhatsApp.`,
+      a: `Our Night Owl dispatch hours are subject to confirmation. Night Owl orders require advance scheduling through the booking form or direct contact with our team on WhatsApp.`,
     },
   ];
 

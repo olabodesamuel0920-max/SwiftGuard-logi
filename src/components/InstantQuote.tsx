@@ -242,25 +242,25 @@ export default function InstantQuote() {
               </div>
 
               <div className="mt-6">
-                <p className="text-[10px] text-amber-400/90 leading-relaxed mb-4 text-center font-semibold">
+                <p className="text-[10px] text-[#aab4ce]/80 leading-relaxed mb-4 text-center font-semibold">
                   For interface demonstration only. Final pricing is confirmed by Swift Guard Logistics.
                 </p>
                 <a
                   href="/book"
                   className="btn btn-primary w-full flex items-center justify-center gap-2 text-sm py-3"
                 >
-                  Book Delivery Mission
+                  Book Delivery
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
             </div>
 
             {/* Fictional district helper notice */}
-            <div className="p-5 rounded-2xl border border-amber-500/10 bg-amber-500/5 text-amber-300 text-xs flex gap-3">
-              <HelpCircle className="w-5 h-5 flex-shrink-0" />
+            <div className="p-5 rounded-2xl border border-[#91aae1]/16 bg-[#0c0e22]/50 text-[#c8d0e2] text-xs flex gap-3">
+              <HelpCircle className="w-5 h-5 flex-shrink-0 text-indigo-400" />
               <div>
-                <span className="font-semibold block mb-0.5">Fictional Environment Notice</span>
-                <p className="text-[11px] text-amber-300/80 leading-normal">
+                <span className="font-semibold block mb-0.5 text-white">Fictional Environment Notice</span>
+                <p className="text-[11px] text-[#c8d0e2]/80 leading-normal">
                   Our current simulation defaults to the fictional <strong>Command District, Swift City</strong>. Select this environment to test pricing structures. Actual service centers will be configured in due course.
                 </p>
               </div>

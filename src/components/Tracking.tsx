@@ -97,11 +97,11 @@ function TrackingFormAndConsole() {
         </div>
 
         {/* Honestly Labelled disclaimer box */}
-        <div className="p-4 rounded-xl border border-amber-500/15 bg-amber-500/5 text-amber-300 text-xs flex gap-3 leading-normal">
-          <Activity className="w-5 h-5 flex-shrink-0 animate-pulse text-amber-400" />
+        <div className="p-4 rounded-xl border border-[#91aae1]/16 bg-[#0c0e22]/50 text-[#c8d0e2] text-xs flex gap-3 leading-normal">
+          <Activity className="w-5 h-5 flex-shrink-0 animate-pulse text-indigo-400" />
           <div>
-            <strong className="block mb-0.5 uppercase tracking-wider text-[9px]">Simulation Notice</strong>
-            <p className="text-[11px] text-amber-300/80">
+            <strong className="block mb-0.5 uppercase tracking-wider text-[9px] text-white">Simulation Notice</strong>
+            <p className="text-[11px] text-[#c8d0e2]/80">
               {"Interactive delivery-status demonstration — not live GPS. The route coordinate marker represents mock checkpoint events, not a rider's actual physical coordinates."}
             </p>
           </div>

@@ -75,13 +75,13 @@ Extra instructions: ${extraInfo}
           <div className="glass rounded-3xl p-6 md:p-8 border border-[#91aae1]/16 bg-[#0c0e22]/80 space-y-6">
             <div>
               <span className="font-space text-[10px] tracking-[0.2em] text-indigo-400 uppercase font-semibold">
-                DEDICATED DEPLOYMENT FORM
+                SECURE DISPATCH FORM
               </span>
               <h1 className="font-space text-2xl md:text-3xl font-bold tracking-tight text-white mt-1">
                 Book a Delivery
               </h1>
               <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                Provide cargo parameters to prepare a dispatch dispatch request. Real pricing is verified on WhatsApp.
+                Provide your delivery details to prepare a dispatch request. Real pricing is verified on WhatsApp.
               </p>
             </div>
 

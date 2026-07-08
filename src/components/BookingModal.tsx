@@ -129,7 +129,7 @@ Extra instructions: ${extraInfo}
 
         <div className="mb-6">
           <span className="font-space text-[10px] tracking-[0.2em] text-indigo-400 uppercase font-semibold">
-            NEW DELIVERY MISSION
+            NEW BOOKING REQUEST
           </span>
           <h2 id="booking-title" className="font-space text-2xl md:text-3xl font-bold tracking-tight text-white mt-1">
             Book a Dispatch
