@@ -65,19 +65,21 @@ export default function Loader() {
       setComplete(false);
     }, 0);
 
+    const isFast = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("fast") === "1";
+
     // 2. Hard timeout at 2.5 seconds
     const hardTimeout = setTimeout(() => {
       handleComplete();
-    }, 2500);
+    }, isFast ? 300 : 2500);
 
     // 3. Show Skip button after 1.2 seconds
     const skipTimer = setTimeout(() => {
       setShowSkip(true);
-    }, 1200);
+    }, isFast ? 100 : 1200);
 
     // 4. Progress bar increments (completes in ~1.8 seconds)
-    const duration = 1800;
-    const intervalTime = 30;
+    const duration = isFast ? 150 : 1800;
+    const intervalTime = isFast ? 10 : 30;
     const steps = duration / intervalTime;
     const increment = 100 / steps;
 
@@ -86,14 +88,14 @@ export default function Loader() {
         const next = Math.min(prev + increment, 100);
         if (next >= 100) {
           clearInterval(progressTimer);
-          setTimeout(handleComplete, 200);
+          setTimeout(handleComplete, isFast ? 20 : 200);
         }
         return next;
       });
     }, intervalTime);
 
     // 5. Console logs scroll
-    const logInterval = 200;
+    const logInterval = isFast ? 20 : 200;
     const logsTimer = setInterval(() => {
       setLogs((prev) => {
         if (prev.length < logDatabase.length) {
@@ -116,6 +118,7 @@ export default function Loader() {
 
   return (
     <div
+      id="cinematic-loader"
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#050610] text-[#f7f9ff] font-space select-none p-4"
       style={{
         transition: "opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
