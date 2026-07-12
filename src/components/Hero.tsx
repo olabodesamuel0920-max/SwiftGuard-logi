@@ -59,7 +59,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-slate-400 text-xs sm:text-sm md:text-base max-w-full sm:max-w-xl leading-relaxed">
-            From urgent packages to scheduled business shipments, {businessConfig.name} coordinates courier logistics with real-time status visibility, speed, and safety-first handling.
+            From urgent packages to scheduled business shipments, {businessConfig.name} coordinates courier logistics with stage-by-stage status visibility, speed, and safety-first handling.
           </p>
 
           <div className="flex flex-wrap gap-3 sm:gap-4">

@@ -52,7 +52,7 @@ export default function PrivacyPage() {
 
               <h2 className="text-white font-space font-bold text-base mt-4">4. Underdevelopment Sandbox</h2>
               <p>
-                This command deck constitutes a prototype application. Real-time mapping coordinates, dispatch schedules, and pricing indicators are simulations for review and do not constitute actual company assets or guarantees.
+                This command deck constitutes a prototype application. Spline mapping coordinates, dispatch schedules, and pricing indicators are simulations for review and do not constitute actual company assets or guarantees.
               </p>
             </div>
           </div>

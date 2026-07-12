@@ -6,15 +6,16 @@ import { businessConfig } from "@/config/business";
 
 export default function InstantQuote() {
   const [service, setService] = useState("Express Delivery");
-  const [category, setCategory] = useState("Documents");
+  const [category, setCategory] = useState("Documents / Keys");
   const [size, setSize] = useState("Small");
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [isExpress, setIsExpress] = useState(false);
   const [isNightOwl, setIsNightOwl] = useState(false);
   const [extraStops, setExtraStops] = useState(0);
+  const [activated, setActivated] = useState(false);
 
-  // Recalculate demo price dynamically during render
+  // Recalculate demo price dynamically
   const base = businessConfig.pricingRules.baseRates[service] || 2500;
   
   let multiplier = 1;
@@ -31,6 +32,27 @@ export default function InstantQuote() {
   const stopsFee = extraStops * businessConfig.pricingRules.extraStopFee;
   
   const estimatedPrice = Math.round((base * sizeFactor) * multiplier + surcharge + stopsFee);
+
+  // Form interaction triggers activation
+  const handleInputChange = (val: string, setter: React.Dispatch<React.SetStateAction<string>>) => {
+    setter(val);
+    setActivated(true);
+  };
+
+  const handleSelectChange = (val: string, setter: React.Dispatch<React.SetStateAction<string>>) => {
+    setter(val);
+    setActivated(true);
+  };
+
+  const handleCheckboxChange = (val: boolean, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter(val);
+    setActivated(true);
+  };
+
+  const handleNumberChange = (val: number, setter: React.Dispatch<React.SetStateAction<number>>) => {
+    setter(val);
+    setActivated(true);
+  };
 
   return (
     <section className="py-20 border-b border-[#91aae1]/10 bg-[#060817]/40 relative overflow-hidden" id="quote">
@@ -54,7 +76,7 @@ export default function InstantQuote() {
           <div className="lg:col-span-7 glass rounded-3xl p-6 md:p-8 border border-[#91aae1]/16 bg-[#0c0e22]/80">
             <h3 className="font-space text-lg font-bold text-white mb-6 flex items-center gap-2">
               <Calculator className="w-5 h-5 text-indigo-400" />
-              Configure Mission Parameters
+              Configure Delivery Parameters
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -68,7 +90,7 @@ export default function InstantQuote() {
                   type="text"
                   placeholder="e.g. Command District North"
                   value={pickup}
-                  onChange={(e) => setPickup(e.target.value)}
+                  onChange={(e) => handleInputChange(e.target.value, setPickup)}
                   className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none focus:border-indigo-500 text-sm"
                 />
               </div>
@@ -83,7 +105,7 @@ export default function InstantQuote() {
                   type="text"
                   placeholder="e.g. Substation South"
                   value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
+                  onChange={(e) => handleInputChange(e.target.value, setDestination)}
                   className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none focus:border-indigo-500 text-sm"
                 />
               </div>
@@ -96,7 +118,7 @@ export default function InstantQuote() {
                 <select
                   id="quote-service"
                   value={service}
-                  onChange={(e) => setService(e.target.value)}
+                  onChange={(e) => handleSelectChange(e.target.value, setService)}
                   className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none focus:border-indigo-500 text-sm"
                 >
                   {businessConfig.services.map((s) => (
@@ -115,7 +137,7 @@ export default function InstantQuote() {
                 <select
                   id="quote-category"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => handleSelectChange(e.target.value, setCategory)}
                   className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none focus:border-indigo-500 text-sm"
                 >
                   <option>Documents / Keys</option>
@@ -135,7 +157,7 @@ export default function InstantQuote() {
                 <select
                   id="quote-size"
                   value={size}
-                  onChange={(e) => setSize(e.target.value)}
+                  onChange={(e) => handleSelectChange(e.target.value, setSize)}
                   className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none focus:border-indigo-500 text-sm"
                 >
                   <option value="Small">Small (Under 3kg)</option>
@@ -155,19 +177,18 @@ export default function InstantQuote() {
                   min="0"
                   max="5"
                   value={extraStops}
-                  onChange={(e) => setExtraStops(Math.max(0, parseInt(e.target.value) || 0))}
+                  onChange={(e) => handleNumberChange(Math.max(0, parseInt(e.target.value) || 0), setExtraStops)}
                   className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none focus:border-indigo-500 text-sm"
                 />
               </div>
 
               {/* Options switches */}
               <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                {/* Express delivery toggle */}
                 <label className="flex items-center gap-3 cursor-pointer p-3 border border-[#91aae1]/10 rounded-xl bg-white/2 hover:bg-white/5 select-none">
                   <input
                     type="checkbox"
                     checked={isExpress}
-                    onChange={(e) => setIsExpress(e.target.checked)}
+                    onChange={(e) => handleCheckboxChange(e.target.checked, setIsExpress)}
                     className="w-4 h-4 text-indigo-600 border-[#91aae1]/30 bg-[#0b0f22] rounded focus:ring-indigo-500 focus:ring-2"
                   />
                   <div>
@@ -176,12 +197,11 @@ export default function InstantQuote() {
                   </div>
                 </label>
 
-                {/* Night owl toggle */}
                 <label className="flex items-center gap-3 cursor-pointer p-3 border border-[#91aae1]/10 rounded-xl bg-white/2 hover:bg-white/5 select-none">
                   <input
                     type="checkbox"
                     checked={isNightOwl}
-                    onChange={(e) => setIsNightOwl(e.target.checked)}
+                    onChange={(e) => handleCheckboxChange(e.target.checked, setIsNightOwl)}
                     className="w-4 h-4 text-indigo-600 border-[#91aae1]/30 bg-[#0b0f22] rounded focus:ring-indigo-500 focus:ring-2"
                   />
                   <div>
@@ -205,9 +225,13 @@ export default function InstantQuote() {
                 <span className="text-xs font-space text-[#c8d0e2] block">
                   Estimated quote pending confirmation
                 </span>
-                {estimatedPrice && (
-                  <strong className="block text-xl md:text-2xl font-space font-bold text-white mt-3">
+                {activated ? (
+                  <strong id="quote-estimate-value" className="block text-xl md:text-2xl font-space font-bold text-white mt-3">
                     Demo estimate: ₦ {estimatedPrice.toLocaleString()}
+                  </strong>
+                ) : (
+                  <strong id="quote-estimate-value" className="block text-xl md:text-2xl font-space font-bold text-[#8ea2c9]/50 mt-3">
+                    Demo estimate: —
                   </strong>
                 )}
               </div>
@@ -215,25 +239,29 @@ export default function InstantQuote() {
               <div className="py-4 border-t border-[#91aae1]/12 text-left space-y-2 text-xs text-slate-400">
                 <div className="flex justify-between">
                   <span>Base Rate:</span>
-                  <span className="text-white">₦ {(businessConfig.pricingRules.baseRates[service] || 2500).toLocaleString()}</span>
+                  <span className="text-white font-mono" id="quote-base-rate">
+                    {activated ? `₦ ${(base).toLocaleString()}` : "—"}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Size Factor:</span>
-                  <span className="text-white">{size === "Small" ? "1.0x" : size === "Medium" ? "1.25x" : "1.6x"}</span>
+                  <span className="text-white font-mono" id="quote-size-factor">
+                    {activated ? `${size === "Small" ? "1.0x" : size === "Medium" ? "1.25x" : "1.6x"}` : "—"}
+                  </span>
                 </div>
-                {isExpress && (
+                {activated && isExpress && (
                   <div className="flex justify-between text-indigo-400">
                     <span>Priority Queue:</span>
                     <span>+{Math.round((businessConfig.pricingRules.expressMultiplier - 1) * 100)}%</span>
                   </div>
                 )}
-                {isNightOwl && (
+                {activated && isNightOwl && (
                   <div className="flex justify-between text-violet-400">
                     <span>Night Owl Fee:</span>
                     <span>+ ₦ {businessConfig.pricingRules.nightOwlSurcharge.toLocaleString()}</span>
                   </div>
                 )}
-                {extraStops > 0 && (
+                {activated && extraStops > 0 && (
                   <div className="flex justify-between text-cyan-400">
                     <span>Multi-Stops ({extraStops}):</span>
                     <span>+ ₦ {(extraStops * businessConfig.pricingRules.extraStopFee).toLocaleString()}</span>
@@ -245,17 +273,29 @@ export default function InstantQuote() {
                 <p className="text-[10px] text-[#aab4ce]/80 leading-relaxed mb-4 text-center font-semibold">
                   For interface demonstration only. Final pricing is confirmed by Swift Guard Logistics.
                 </p>
-                <a
-                  href="/book"
-                  className="btn btn-primary w-full flex items-center justify-center gap-2 text-sm py-3"
-                >
-                  Book Delivery
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+                {activated ? (
+                  <a
+                    href="/book"
+                    id="quote-book-link"
+                    className="btn btn-primary w-full flex items-center justify-center gap-2 text-sm py-3"
+                  >
+                    Book Delivery
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => setActivated(true)}
+                    id="quote-activate-button"
+                    className="btn btn-primary w-full flex items-center justify-center gap-2 text-sm py-3 cursor-pointer"
+                  >
+                    Calculate Rate
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
 
-            {/* Fictional district helper notice */}
+            {/* Fictional district notice */}
             <div className="p-5 rounded-2xl border border-[#91aae1]/16 bg-[#0c0e22]/50 text-[#c8d0e2] text-xs flex gap-3">
               <HelpCircle className="w-5 h-5 flex-shrink-0 text-indigo-400" />
               <div>

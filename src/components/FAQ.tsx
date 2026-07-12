@@ -13,8 +13,8 @@ export default function FAQ() {
       a: `We are currently in a testing and deployment phase, defaulting to "${businessConfig.operatingCityPlaceholder}" for interface simulations. Specific operating zones and address parameters are subject to dispatch manager confirmation during booking.`,
     },
     {
-      q: "Is there real-time live GPS tracking?",
-      a: "No. Our tracking portal utilizes dispatch checkpoint logging. When the package completes a dispatch stage, the system updates the dashboard in real-time. We do not represent our simulator map marker as physical live GPS tracking.",
+      q: "Is there live GPS tracking?",
+      a: "No. Our tracking portal utilizes stage-by-stage checkpoint logging. When the package completes a dispatch stage, the system updates the dashboard. We do not represent our simulator map marker as physical live GPS tracking.",
     },
     {
       q: "What items are restricted from transport?",

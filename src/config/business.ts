@@ -176,7 +176,7 @@ export const businessConfig: BusinessConfig = {
       features: [
         "Late-hour secure coordination",
         "Approved transit corridors",
-        "Real-time safety command center tracking"
+        "Stage-by-stage safety dashboard tracking"
       ]
     },
     {
@@ -209,7 +209,7 @@ export const businessConfig: BusinessConfig = {
       features: [
         "Instant dispatch queue priority",
         "Fastest route navigation",
-        "Real-time dispatch alert notifications"
+        "Direct dispatch status updates"
       ]
     }
   ]

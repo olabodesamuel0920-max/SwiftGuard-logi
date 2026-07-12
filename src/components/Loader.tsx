@@ -41,8 +41,10 @@ export default function Loader() {
 
     // 1. Session check to avoid replays
     try {
+      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const skipParam = params?.get("saver") === "true" || params?.get("skipLoader") === "true";
       const alreadyCompleted = sessionStorage.getItem("sg_loader_completed") === "true";
-      if (alreadyCompleted || reducedMotion) {
+      if (alreadyCompleted || reducedMotion || skipParam) {
         setTimeout(() => {
           setComplete(true);
         }, 0);

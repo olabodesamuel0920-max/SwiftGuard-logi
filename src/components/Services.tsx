@@ -20,7 +20,7 @@ export default function Services() {
         {/* Section Header */}
         <div className="max-w-2xl mb-12 md:mb-16">
           <span className="font-space text-[10px] tracking-[0.2em] text-indigo-400 uppercase font-semibold">
-            MISSION SELECTOR
+            SERVICES SELECTOR
           </span>
           <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
             One Network.<br />
@@ -29,7 +29,7 @@ export default function Services() {
             </span>
           </h2>
           <p className="text-slate-400 text-sm mt-3">
-            Select a service type below to adjust the command deck parameters for your logistics mission.
+            Select a service type below to adjust the parameters for your logistics shipment.
           </p>
         </div>
 
@@ -153,7 +153,7 @@ export default function Services() {
                   onClick={() => setModalOpen(true)}
                   className="btn btn-primary w-full flex items-center justify-center gap-2 py-3.5 text-sm"
                 >
-                  Start This Mission
+                  Select Service
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </motion.div>

@@ -46,7 +46,7 @@ export default function Footer() {
 
         {/* Footer Meta / Copyright */}
         <div className="text-center md:text-right text-slate-500">
-          <span>Command Center Demo &bull; &copy; {currentYear} {businessConfig.name}</span>
+          <span>Interface Preview &bull; &copy; {currentYear} {businessConfig.name}</span>
         </div>
       </div>
     </footer>

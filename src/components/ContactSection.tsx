@@ -11,7 +11,7 @@ export default function ContactSection() {
           <div className="lg:col-span-6 space-y-6">
             <div>
               <span className="font-space text-[10px] tracking-[0.2em] text-indigo-400 uppercase font-semibold">
-                MISSION DESK
+                DISPATCH DESK
               </span>
               <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
                 Establish Connection
