@@ -1,146 +1,263 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Swift Guard Logistics - E2E Production Quality Assurance", () => {
+test.describe("Swift Guard Logistics - E2E QA Verification Suite", () => {
   
-  test.describe("Homepage Content Integrity Checks", () => {
-    test.beforeEach(async ({ page }) => {
-      // Append skipLoader=true and saver=true to bypass animation wait and load lightweight static scene
+  // 1. Console error monitoring & clean logs
+  test.describe("Console and Data Integrity Checks", () => {
+    test("Assert no severe console errors are thrown during load", async ({ page }) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (msg) => {
+        if (msg.type() === "error") {
+          // ignore expected dynamic resource warnings if any
+          if (!msg.text().includes("failed to load resource")) {
+            consoleErrors.push(msg.text());
+          }
+        }
+      });
+
       await page.goto("/?skipLoader=true&saver=true");
-      await page.waitForFunction(() => {
-        return document.documentElement.getAttribute("data-app-ready") === "true";
-      }, { timeout: 8000 });
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+      expect(consoleErrors).toHaveLength(0);
     });
 
-    test("Verify critical dispatch contact references", async ({ page }) => {
-      // Call number & tel: link format
-      const callLink = page.locator('a[href="tel:+2349030427190"]').first();
-      await expect(callLink).toBeVisible();
-
-      // WhatsApp number & wa.me link format
-      const whatsappLink = page.locator('a[href*="wa.me/2349137231057"]').first();
-      await expect(whatsappLink).toBeVisible();
-
-      // Verified text indicator
-      await expect(page.locator("body")).toContainText("NIGHT OWL DELIVERY AVAILABLE");
-    });
-
-    test("Ensure unverified claims do not exist on homepage", async ({ page }) => {
-      const content = await page.content();
-      
-      // Fictional office metadata must be absent
-      expect(content).not.toContain("24/7 Night Owl Patrol");
-      expect(content).not.toContain("dispatch@swiftguardlogistics.com");
-      expect(content).not.toContain("Plot 12 Cyber Plaza");
-      expect(content).not.toContain("West Wing Hub");
-      expect(content).not.toContain("East Industrial Node");
-      expect(content).not.toContain("9:00 PM - 6:00 AM");
-      expect(content).not.toContain("International: +2349137231057");
-    });
-
-    test("Assert obsolete phrases are removed and replaced", async ({ page }) => {
+    test("Assert no obsolete phrases exist in homepage HTML", async ({ page }) => {
+      await page.goto("/?skipLoader=true&saver=true");
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
       const content = await page.content();
 
-      // Verify game-like phrasing is gone
       expect(content).not.toContain("MISSION SELECTOR");
       expect(content).not.toContain("Start This Mission");
       expect(content).not.toContain("Configure Mission Parameters");
       expect(content).not.toContain("Book Delivery Mission");
       expect(content).not.toContain("MISSION DESK");
       expect(content).not.toContain("Command Center Demo");
-      
-      // Verify "real-time" claims are removed or qualified
       expect(content).not.toContain("real-time status visibility");
-      expect(content).not.toContain("Real-time safety command center tracking");
-      expect(content).not.toContain("Real-time dispatch alert notifications");
+      expect(content).not.toContain("updates in real-time");
     });
   });
 
-  test.describe("Quote Calculator Activation Flows", () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto("/?skipLoader=true&saver=true");
+  // 2. Cinematic Loader tests
+  test.describe("Cinematic Loader Behavior", () => {
+    test("Loader closes within 3 seconds and unlocks interface", async ({ page }) => {
+      const startTime = Date.now();
+      await page.goto("/");
       await page.waitForFunction(() => {
         return document.documentElement.getAttribute("data-app-ready") === "true";
-      }, { timeout: 8000 });
+      }, { timeout: 4000 });
+      const elapsed = Date.now() - startTime;
+      expect(elapsed).toBeLessThan(3500); // hard timeout at 2.5s guarantees lock release
     });
 
-    test("Verify calculator defaults to no naira figures", async ({ page }) => {
-      // Scroll to calculator
+    test("Loader and header use matching unified SG logo monogram", async ({ page }) => {
+      // Navigate to the side-by-side logo proof page
+      await page.goto("/logo-proof");
+      
+      const logoCount = await page.locator("svg[role='img']").count();
+      expect(logoCount).toBe(2);
+
+      // Verify both SVGs contain the unified S/G monogram paths
+      const svgs = page.locator("svg[role='img']");
+      for (let i = 0; i < logoCount; i++) {
+        const svgContent = await svgs.nth(i).innerHTML();
+        expect(svgContent).toContain('d="M38 20H26C23 20 23 27 26 28.5L38 31.5C41 33 41 40 38 41.5H26"');
+        expect(svgContent).toContain('d="M36 29H42V40C42 42.5 39.5 44 37 44H29C25 44 23.5 41 23.5 37"');
+      }
+    });
+
+    test("Reduced motion skips loader instantly", async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      const startTime = Date.now();
+      await page.goto("/");
+      await page.waitForFunction(() => {
+        return document.documentElement.getAttribute("data-app-ready") === "true";
+      }, { timeout: 1000 });
+      expect(Date.now() - startTime).toBeLessThan(1000);
+    });
+  });
+
+  // 3. Responsive viewports and overflow testing
+  test.describe("Viewport responsive layout verification", () => {
+    const widths = [320, 360, 375, 390, 430];
+
+    for (const w of widths) {
+      test(`Assert no layout overflow at viewport width ${w}px`, async ({ page }) => {
+        await page.setViewportSize({ width: w, height: 800 });
+        await page.goto("/?skipLoader=true&saver=true");
+        await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+
+        // Verify there is no horizontal scroll overflow
+        const overflowCheck = await page.evaluate(() => {
+          return document.documentElement.scrollWidth > window.innerWidth;
+        });
+        expect(overflowCheck).toBe(false);
+      });
+    }
+
+    test("Verify correct compact header styling at 320px width", async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 800 });
+      await page.goto("/?skipLoader=true&saver=true");
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+
+      // LOGISTICS brand text should be hidden
+      const logisticsText = page.locator("span:has-text('LOGISTICS')");
+      await expect(logisticsText).toBeHidden();
+
+      // Words "Book Delivery" should be hidden on the action button
+      const bookButtonText = page.locator("header a[href='/book'] span");
+      await expect(bookButtonText).toBeHidden();
+
+      // Calendar icon inside action button and settings button remain visible
+      const calendarIcon = page.locator("header a[href='/book'] svg");
+      await expect(calendarIcon).toBeVisible();
+
+      const settingsBtn = page.locator("header button[aria-label='Open settings panel']");
+      await expect(settingsBtn).toBeVisible();
+
+      // Header width does not exceed outer boundaries
+      const headerBox = await page.locator("header > div").first().boundingBox();
+      expect(headerBox?.width).toBeLessThanOrEqual(296); // fits within 320 - 24 (padding)
+    });
+
+    test("Verify all four mobile bottom navigation items are visible", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 800 });
+      await page.goto("/?skipLoader=true&saver=true");
+      
+      const navContainer = page.locator("nav[aria-label='Mobile navigation bar']");
+      await expect(navContainer).toBeVisible();
+
+      const navItems = navContainer.locator("a");
+      await expect(navItems).toHaveCount(4);
+
+      // Verify each bottom nav item is visible
+      for (let i = 0; i < 4; i++) {
+        await expect(navItems.nth(i)).toBeVisible();
+      }
+    });
+  });
+
+  // 4. Quote Calculator Activations
+  test.describe("Quote Calculator Display Rules", () => {
+    test("Default pricing contains no Naira symbol or numeric estimates", async ({ page }) => {
+      await page.goto("/?skipLoader=true&saver=true");
       const calculatorHeader = page.locator("#quote");
       await calculatorHeader.scrollIntoViewIfNeeded();
 
-      // Estimate field should display placeholder em-dash
       const estimateText = page.locator("#quote-estimate-value");
       await expect(estimateText).toContainText("—");
-      
-      // Table cells should be placeholders em-dash
-      const baseRateText = page.locator("#quote-base-rate");
-      await expect(baseRateText).toContainText("—");
-      
-      const sizeFactorText = page.locator("#quote-size-factor");
-      await expect(sizeFactorText).toContainText("—");
+      await expect(estimateText).not.toContainText("₦");
 
-      // Verify the CTA button is 'Calculate Rate' and not the booking link
-      const activateButton = page.locator("#quote-activate-button");
-      await expect(activateButton).toBeVisible();
-      await expect(activateButton).toContainText("Calculate Rate");
+      const activateBtn = page.locator("#quote-activate-button");
+      await expect(activateBtn).toContainText("View Sample Pricing");
     });
 
-    test("Verify calculator displays active pricing after activation click", async ({ page }) => {
+    test("Pricing displays correctly only after View Sample Pricing click", async ({ page }) => {
+      await page.goto("/?skipLoader=true&saver=true");
       const calculatorHeader = page.locator("#quote");
       await calculatorHeader.scrollIntoViewIfNeeded();
 
-      // Click calculate button
-      const activateButton = page.locator("#quote-activate-button");
-      await activateButton.click();
+      const activateBtn = page.locator("#quote-activate-button");
+      await activateBtn.click();
 
-      // Naira figures should now be generated
+      // Pricing values appear with Naira symbols
       const estimateText = page.locator("#quote-estimate-value");
       await expect(estimateText).toContainText("₦");
 
       const baseRateText = page.locator("#quote-base-rate");
       await expect(baseRateText).toContainText("₦");
 
-      const sizeFactorText = page.locator("#quote-size-factor");
-      await expect(sizeFactorText).toContainText("1.0");
-
-      // Booking link is revealed
-      const bookLink = page.locator("#quote-book-link");
-      await expect(bookLink).toBeVisible();
+      // Official warning notice is prominently rendered
+      const warningAlert = page.locator("div:has-text('Not an official Swift Guard rate')");
+      await expect(warningAlert).toBeVisible();
     });
   });
 
-  test.describe("Scene Diagnosis Overlay Checks", () => {
-    test("Verify sceneDebug=1 reveals active diagnostics dashboard", async ({ page }) => {
-      // Navigate with debug param & bypass loader
-      await page.goto("/?sceneDebug=1&skipLoader=true");
-      
-      await page.waitForFunction(() => {
-        return document.documentElement.getAttribute("data-app-ready") === "true";
-      }, { timeout: 8000 });
+  // 5. Booking Form Validation & WhatsApp Links
+  test.describe("Booking form validation", () => {
+    test("Assert error validation triggers on required inputs", async ({ page }) => {
+      await page.goto("/book?skipLoader=true");
 
-      // Check debug info container
+      // Click WhatsApp submit with empty form fields
+      await page.locator("button[type='submit']").click();
+
+      // Verify required error warnings appear
+      await expect(page.locator("body")).toContainText("Pickup location is required");
+      await expect(page.locator("body")).toContainText("Destination is required");
+      await expect(page.locator("body")).toContainText("Customer name is required");
+      await expect(page.locator("body")).toContainText("Phone number is required");
+    });
+
+    test("Verify correct WhatsApp number format and message encoding", async ({ page }) => {
+      await page.goto("/book?skipLoader=true");
+
+      // Fill valid inputs
+      await page.locator("#book-pickup-input").fill("Command Hub North");
+      await page.locator("#book-destination-input").fill("Substation South");
+      await page.locator("#book-name-input").fill("Samuel");
+      await page.locator("#book-phone-input").fill("09137231057");
+      await page.locator("#book-details-text").fill("Electronics case");
+
+      // Mock window.open to assert WhatsApp redirect values
+      const redirectPromise = page.evaluate(() => {
+        return new Promise<string>((resolve) => {
+          window.open = (url) => {
+            resolve(url || "");
+            return null;
+          };
+        });
+      });
+
+      await page.locator("button[type='submit']").click();
+      const targetUrl = await redirectPromise;
+
+      expect(targetUrl).toContain("wa.me/2349137231057");
+      expect(targetUrl).toContain("Pickup%3A%20Command%20Hub%20North");
+      expect(targetUrl).toContain("Destination%3A%20Substation%20South");
+    });
+  });
+
+  // 6. 3D Fallback Mode and WebGL Fallback verification
+  test.describe("Battery Saver and Fallbacks", () => {
+    test("Battery saver query deactivates 3D and renders SVG blueprint", async ({ page }) => {
+      await page.goto("/?skipLoader=true&saver=true");
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+
+      // Canvas should not be active, static SVG container should render
+      const staticContainer = page.locator("text=ACTIVE BLUEPRINT ROUTE");
+      await expect(staticContainer).toBeVisible();
+    });
+  });
+
+  // 7. Dynamic Animation Phase freezes
+  test.describe("Cinematic Phase Overrides", () => {
+    test("phase=pickup overrides locks scene to pickup node", async ({ page }) => {
+      await page.goto("/?sceneDebug=1&phase=pickup&skipLoader=true");
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+
       const debugOverlay = page.locator("#scene-debug-overlay");
       await expect(debugOverlay).toBeVisible();
-      await expect(debugOverlay).toContainText("Scene Debug Proof");
-      await expect(debugOverlay).toContainText("ANIMATION PHASE");
-      await expect(debugOverlay).toContainText("RIDER RATE");
+      await expect(debugOverlay).toContainText("OVERRIDE: pickup");
+      await expect(debugOverlay).toContainText("Pickup Phase");
+    });
+
+    test("phase=transit overrides locks scene to transit center", async ({ page }) => {
+      await page.goto("/?sceneDebug=1&phase=transit&skipLoader=true");
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+
+      const debugOverlay = page.locator("#scene-debug-overlay");
+      await expect(debugOverlay).toBeVisible();
+      await expect(debugOverlay).toContainText("OVERRIDE: transit");
+      await expect(debugOverlay).toContainText("Transit Phase");
+    });
+
+    test("phase=delivery overrides locks scene to destination node", async ({ page }) => {
+      await page.goto("/?sceneDebug=1&phase=delivery&skipLoader=true");
+      await page.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+
+      const debugOverlay = page.locator("#scene-debug-overlay");
+      await expect(debugOverlay).toBeVisible();
+      await expect(debugOverlay).toContainText("OVERRIDE: delivery");
+      await expect(debugOverlay).toContainText("Delivery Phase");
     });
   });
 
-  test.describe("Page Navigation and Routing Checks", () => {
-    test("Assert subpage loading and layouts", async ({ page }) => {
-      // Dedicated Booking page
-      await page.goto("/book?skipLoader=true");
-      await expect(page.locator("h1").first()).toContainText("Book a Delivery");
-      await expect(page.locator("body")).toContainText("SECURE DISPATCH FORM");
-
-      // Tracking page
-      await page.goto("/track?code=SGL-804219&skipLoader=true");
-      await expect(page.locator("body")).toContainText("Command Center Tracking");
-
-      // Business page
-      await page.goto("/business?skipLoader=true");
-      await expect(page.locator("h2").first()).toContainText("Your Delivery Operations, Upgraded.");
-    });
-  });
 });

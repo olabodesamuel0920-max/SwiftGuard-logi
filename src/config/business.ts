@@ -94,7 +94,7 @@ export const businessConfig: BusinessConfig = {
         rider: "SG-07",
         time: "12:09 PM",
         percent: 25,
-        description: "An available rider is assigned to the mission."
+        description: "An available rider is assigned to the request."
       },
       {
         status: "PACKAGE COLLECTED",

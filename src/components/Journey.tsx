@@ -19,7 +19,7 @@ export default function Journey() {
       index: "02",
       tag: "ASSIGN",
       title: "Rider Matched",
-      desc: "An available rider is assigned to the mission.",
+      desc: "An available rider is assigned to the request.",
       icon: <UserCheck className="w-5 h-5" />,
     },
     {

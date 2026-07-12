@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 (async () => {
-  console.log("Starting QA Screenshot Capture automation...");
+  console.log("Starting Phase 1D.2 QA Screenshot Capture automation...");
   const browser = await chromium.launch({ headless: true });
   const qaDir = path.join(__dirname, "..", "qa");
   
@@ -11,6 +11,7 @@ const fs = require("fs");
     fs.mkdirSync(qaDir, { recursive: true });
   }
 
+  // Base Vercel or local URL
   const base = "https://swift-guard-logi.vercel.app";
 
   // 1. Capture Loader showing the SG Monogram
@@ -18,12 +19,20 @@ const fs = require("fs");
   const loaderPage = await browser.newPage();
   await loaderPage.setViewportSize({ width: 1280, height: 900 });
   await loaderPage.goto(base);
-  // Wait short time so loader is visible but not completed
-  await loaderPage.waitForTimeout(600);
+  await loaderPage.waitForTimeout(600); // Capture mid-loading sequence
   await loaderPage.screenshot({ path: path.join(qaDir, "loader_sg_monogram.png") });
   await loaderPage.close();
 
-  // 2. Capture mobile screenshots with no clipping (320px, 375px, 430px)
+  // 2. Capture Logo Proof Subpage Side-by-Side
+  console.log("Capturing Logo Proof side-by-side...");
+  const proofPage = await browser.newPage();
+  await proofPage.setViewportSize({ width: 1280, height: 800 });
+  await proofPage.goto(`${base}/logo-proof`);
+  await proofPage.waitForTimeout(1000);
+  await proofPage.screenshot({ path: path.join(qaDir, "logo_proof_side_by_side.png") });
+  await proofPage.close();
+
+  // 3. Capture mobile screenshots with no clipping (320px, 375px, 430px)
   const viewports = [320, 375, 430];
   for (const w of viewports) {
     console.log(`Capturing Mobile home at ${w}px...`);
@@ -35,7 +44,7 @@ const fs = require("fs");
     await page.close();
   }
 
-  // 3. Capture default calculator showing no Naira amount
+  // 4. Capture default calculator showing no Naira amount
   console.log("Capturing default calculator (no Naira amount)...");
   const calcPage = await browser.newPage();
   await calcPage.setViewportSize({ width: 1280, height: 900 });
@@ -44,77 +53,65 @@ const fs = require("fs");
   
   const calcSection = calcPage.locator("#quote");
   await calcSection.scrollIntoViewIfNeeded();
-  // Brief timeout to settle
   await calcPage.waitForTimeout(500);
   await calcSection.screenshot({ path: path.join(qaDir, "calculator_default_no_naira.png") });
 
-  // 4. Capture activated calculator after click
+  // 5. Capture activated calculator after click (showing "View Sample Pricing")
   console.log("Activating calculator and capturing activated pricing...");
   const calcButton = calcPage.locator("#quote-activate-button");
   await calcButton.click();
-  await calcPage.waitForTimeout(300);
+  await calcPage.waitForTimeout(500);
   await calcSection.screenshot({ path: path.join(qaDir, "calculator_activated_pricing.png") });
   await calcPage.close();
 
-  // 5. Capture normal scene showing visible motorcycle (using page level capture to avoid canvas freeze)
+  // 6. Capture normal scene showing enlarged motorcycle
   console.log("Capturing normal scene with motorcycle...");
   const scenePage = await browser.newPage();
   await scenePage.setViewportSize({ width: 1280, height: 900 });
   await scenePage.goto(`${base}/?skipLoader=true`);
   await scenePage.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
-  await scenePage.waitForTimeout(2000); // Settle intro transitions
+  await scenePage.waitForTimeout(2500); // wait for camera easing intro to complete
   await scenePage.screenshot({ path: path.join(qaDir, "motorcycle_normal_scene.png") });
   await scenePage.close();
 
-  // 6. Capture sceneDebug=1 screenshot with all labels
+  // 7. Capture sceneDebug=1 screenshot showing leader lines pointing to paused models
   console.log("Capturing sceneDebug=1 overlay...");
   const debugPage = await browser.newPage();
   await debugPage.setViewportSize({ width: 1280, height: 900 });
   await debugPage.goto(`${base}/?sceneDebug=1&skipLoader=true`);
   await debugPage.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
   await debugPage.waitForSelector("#scene-debug-overlay");
-  await debugPage.waitForTimeout(500);
+  await debugPage.waitForTimeout(1000); // let 3D render settle
   await debugPage.screenshot({ path: path.join(qaDir, "scene_debug_dashboard.png") });
   await debugPage.close();
 
-  // 7. Capture Pickup & Delivery Animation Phases (using sceneDebug overlays)
-  console.log("Capturing pickup and delivery animation phases...");
-  const animPage = await browser.newPage();
-  await animPage.setViewportSize({ width: 1280, height: 900 });
-  await animPage.goto(`${base}/?sceneDebug=1&skipLoader=true`);
-  await animPage.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
-
-  let pickupCaptured = false;
-  let deliveryCaptured = false;
-  
-  // Poll page to catch debug phase transitions
-  for (let i = 0; i < 40; i++) {
-    const text = await animPage.locator("#scene-debug-overlay").innerText();
-    
-    if (text.includes("PHASE: Pickup Phase") && !pickupCaptured) {
-      console.log("Captured Pickup Phase frame!");
-      await animPage.screenshot({ path: path.join(qaDir, "animation_pickup_phase.png") });
-      pickupCaptured = true;
-    }
-    
-    if (text.includes("PHASE: Delivery Phase") && !deliveryCaptured) {
-      console.log("Captured Delivery Phase frame!");
-      await animPage.screenshot({ path: path.join(qaDir, "animation_delivery_phase.png") });
-      deliveryCaptured = true;
-    }
-
-    if (pickupCaptured && deliveryCaptured) break;
-    await animPage.waitForTimeout(250);
+  // 8. Capture frozen animation phases (?phase=pickup, ?phase=transit, ?phase=delivery)
+  const phases = ["pickup", "transit", "delivery"];
+  for (const phase of phases) {
+    console.log(`Capturing phase=${phase} override...`);
+    const animPage = await browser.newPage();
+    await animPage.setViewportSize({ width: 1280, height: 900 });
+    await animPage.goto(`${base}/?sceneDebug=1&phase=${phase}&skipLoader=true`);
+    await animPage.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+    await animPage.waitForTimeout(1500); // let WebGL render finish drawing the parcel
+    await animPage.screenshot({ path: path.join(qaDir, `animation_${phase}_phase.png`) });
+    await animPage.close();
   }
 
-  // 8. Capture motion sequence frames (simulating screen recording proof)
+  // 9. Capture sequential motion frames for animation proof
   console.log("Capturing motion frames sequence...");
-  for (let f = 1; f <= 3; f++) {
-    await animPage.waitForTimeout(500);
-    await animPage.screenshot({ path: path.join(qaDir, `motorcycle_motion_frame${f}.png`) });
-  }
+  const motionPage = await browser.newPage();
+  await motionPage.setViewportSize({ width: 1280, height: 900 });
+  await motionPage.goto(`${base}/?skipLoader=true`);
+  await motionPage.waitForFunction(() => document.documentElement.getAttribute("data-app-ready") === "true");
+  await motionPage.waitForTimeout(2500); // wait for intro to end
 
-  await animPage.close();
+  for (let f = 1; f <= 3; f++) {
+    await motionPage.waitForTimeout(600);
+    await motionPage.screenshot({ path: path.join(qaDir, `motorcycle_motion_frame${f}.png`) });
+  }
+  await motionPage.close();
+
   await browser.close();
-  console.log("All screenshots captured successfully!");
+  console.log("All Phase 1D.2 screenshots captured successfully!");
 })();

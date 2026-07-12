@@ -218,12 +218,12 @@ export default function InstantQuote() {
             {/* Calculator Display Panel */}
             <div className="glass rounded-3xl p-8 border border-[#91aae1]/16 bg-gradient-to-br from-[#0e1233] to-[#080b1e] text-center shadow-xl">
               <span className="text-[10px] tracking-[0.2em] text-[#8ea2c9] uppercase font-semibold">
-                PREVIEW ESTIMATE
+                SAMPLE PRICING PREVIEW
               </span>
               
               <div className="my-6">
                 <span className="text-xs font-space text-[#c8d0e2] block">
-                  Estimated quote pending confirmation
+                  {activated ? "Sample interface pricing" : "Estimated quote pending confirmation"}
                 </span>
                 {activated ? (
                   <strong id="quote-estimate-value" className="block text-xl md:text-2xl font-space font-bold text-white mt-3">
@@ -273,6 +273,11 @@ export default function InstantQuote() {
                 <p className="text-[10px] text-[#aab4ce]/80 leading-relaxed mb-4 text-center font-semibold">
                   For interface demonstration only. Final pricing is confirmed by Swift Guard Logistics.
                 </p>
+                {activated && (
+                  <div className="mb-4 text-[10px] font-bold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-xl text-center leading-normal">
+                    Not an official Swift Guard rate. Real pricing is confirmed during booking.
+                  </div>
+                )}
                 {activated ? (
                   <a
                     href="/book"
@@ -288,7 +293,7 @@ export default function InstantQuote() {
                     id="quote-activate-button"
                     className="btn btn-primary w-full flex items-center justify-center gap-2 text-sm py-3 cursor-pointer"
                   >
-                    Calculate Rate
+                    View Sample Pricing
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 )}

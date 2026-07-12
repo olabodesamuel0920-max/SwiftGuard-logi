@@ -55,7 +55,7 @@ export default function TermsPage() {
 
               <h2 className="text-white font-space font-bold text-base mt-4">4. Transit Liability</h2>
               <p>
-                Riders and dispatch centers exercise highest care protocols. Liability limits for parcels, supermarket check-ins, and personal errands are established on an individual dispatch basis prior to matching a rider to a client mission.
+                Riders and dispatch centers exercise highest care protocols. Liability limits for parcels, supermarket check-ins, and personal errands are established on an individual dispatch basis prior to matching a rider to a client dispatch task.
               </p>
             </div>
           </div>

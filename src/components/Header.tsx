@@ -19,16 +19,16 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed z-[99] left-1/2 top-4 -translate-x-1/2 w-full max-w-[1240px] px-4 md:px-6">
-        <div className="glass h-[72px] rounded-2xl flex items-center justify-between px-6 md:px-8 border border-[#91aae1]/16 bg-[#0d1022]/62 backdrop-blur-md shadow-2xl">
+      <header className="fixed z-[99] left-1/2 top-4 -translate-x-1/2 w-full max-w-[1240px] px-3 min-[360px]:px-4 md:px-6">
+        <div className="glass h-[72px] rounded-2xl flex items-center justify-between px-4 min-[360px]:px-6 md:px-8 border border-[#91aae1]/16 bg-[#0d1022]/62 backdrop-blur-md shadow-2xl">
           {/* Logo and Brand */}
-          <Link href="/" aria-label="Swift Guard Logistics home" className="flex items-center gap-3 group focus:outline-none">
-            <LogoMark size={40} className="group-hover:scale-105 transition-transform duration-300" />
-            <div className="flex flex-col line-height-none">
-              <span className="font-space text-sm font-bold tracking-widest text-white leading-none">
+          <Link href="/" aria-label="Swift Guard Logistics home" className="flex items-center gap-2 min-[360px]:gap-3 group focus:outline-none">
+            <LogoMark size={36} className="min-[360px]:w-[40px] min-[360px]:h-[40px] group-hover:scale-105 transition-transform duration-300" />
+            <div className="flex flex-col line-height-none whitespace-nowrap">
+              <span className="font-space text-xs min-[360px]:text-sm font-bold tracking-widest text-white leading-none">
                 SWIFT GUARD
               </span>
-              <span className="font-space text-[8px] tracking-[0.48em] text-[#aab4ce] leading-none mt-1">
+              <span className="font-space text-[8px] tracking-[0.48em] text-[#aab4ce] leading-none mt-1 hidden min-[360px]:block">
                 LOGISTICS
               </span>
             </div>
@@ -72,7 +72,7 @@ export default function Header() {
           </nav>
 
           {/* Action Area */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 min-[360px]:gap-3">
             {/* Preferences Toggle Button */}
             <button
               onClick={() => setSettingsOpen(true)}
@@ -95,10 +95,10 @@ export default function Header() {
             {/* Primary Action Button */}
             <Link
               href="/book"
-              className="btn btn-primary compact hidden sm:inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="btn btn-primary compact inline-flex items-center justify-center gap-2 w-10 h-10 min-[360px]:w-auto min-[360px]:h-auto min-[360px]:px-4 min-[360px]:py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs font-semibold"
             >
-              <Calendar className="w-3.5 h-3.5" />
-              Book Delivery
+              <Calendar className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden min-[360px]:inline">Book Delivery</span>
             </Link>
           </div>
         </div>
