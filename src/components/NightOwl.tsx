@@ -37,7 +37,7 @@ export default function NightOwl() {
               </span>
             </h2>
             <p className="text-slate-400 text-sm mt-3 leading-relaxed">
-              Selected after-hours errands and deliveries, coordinated under strict safety check guidelines, designated transit zones, and late-night routing.
+              Selected after-hours delivery requests may be available. Coverage, operating hours and safety requirements are confirmed during booking.
             </p>
           </div>
 
@@ -47,7 +47,7 @@ export default function NightOwl() {
               <Shield className="w-3 h-3" /> Late Dispatch Options
             </span>
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-[#c9baff] text-[10px] font-space tracking-wider uppercase font-semibold">
-              <MapPin className="w-3 h-3" /> Zone Validation
+              <MapPin className="w-3 h-3" /> Service Area
             </span>
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-[#c9baff] text-[10px] font-space tracking-wider uppercase font-semibold">
               <Sparkles className="w-3 h-3" /> Dispatch Routing

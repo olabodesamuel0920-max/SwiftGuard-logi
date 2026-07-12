@@ -14,7 +14,7 @@ export default function ContactSection() {
                 DISPATCH DESK
               </span>
               <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
-                Establish Connection
+                Contact Swift Guard
               </h2>
               <p className="text-slate-400 text-sm mt-3 leading-relaxed max-w-xl">
                 Get in touch with our operations staff to initiate a dispatch or query custom pricing for bulk deliveries.

@@ -57,10 +57,10 @@ function TrackingFormAndConsole() {
       <div className="lg:col-span-4 space-y-6">
         <div className="glass rounded-2xl p-6 border border-[#91aae1]/10 bg-[#0c0e22]/50">
           <h3 className="font-space text-sm font-bold text-white mb-4 uppercase tracking-wider">
-            Terminal Query
+            Tracking Reference
           </h3>
           <p className="text-xs text-slate-400 mb-4 leading-relaxed">
-            Enter your dispatch reference code below to load checkpoint logs and route progress coordinates.
+            Enter your dispatch reference code below to check delivery status and route progress.
           </p>
 
           <form onSubmit={handleSearch} className="space-y-4">
@@ -91,7 +91,7 @@ function TrackingFormAndConsole() {
               type="submit"
               className="btn btn-primary w-full py-3 text-xs"
             >
-              Refresh Dispatch Feed
+              Check Status
             </button>
           </form>
         </div>
@@ -263,14 +263,70 @@ export default function Tracking() {
       <div className="max-w-[1240px] mx-auto px-4 md:px-6">
         <div className="max-w-2xl mb-12">
           <span className="font-space text-[10px] tracking-[0.2em] text-indigo-400 uppercase font-semibold">
-            TRACKING COMMAND
+            DELIVERY STATUS
           </span>
           <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
-            Command Center Tracking
+            Delivery Status Preview
           </h2>
         </div>
 
-        <Suspense fallback={<div className="text-white text-center py-10">Initializing tracking console...</div>}>
+        <Suspense fallback={
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-4 space-y-6">
+              <div className="glass rounded-2xl p-6 border border-[#91aae1]/10 bg-[#0c0e22]/50">
+                <h3 className="font-space text-sm font-bold text-white mb-4 uppercase tracking-wider">
+                  Tracking Reference
+                </h3>
+                <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                  Enter your dispatch reference code below to check delivery status and route progress.
+                </p>
+                <div className="space-y-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[9px] font-semibold tracking-wider text-[#9eadd0] uppercase">
+                      Tracking Reference
+                    </label>
+                    <input
+                      type="text"
+                      defaultValue="SGL-804219"
+                      readOnly
+                      className="w-full border border-[#91aae1]/16 bg-[#0b0f22] text-white p-3 rounded-xl outline-none text-sm font-mono"
+                    />
+                  </div>
+                  <button
+                    disabled
+                    className="btn btn-primary w-full py-3 text-xs opacity-50 cursor-wait"
+                  >
+                    Check Status
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl border border-[#91aae1]/16 bg-[#0c0e22]/50 text-[#c8d0e2] text-xs flex gap-3 leading-normal">
+                <Activity className="w-5 h-5 flex-shrink-0 animate-pulse text-indigo-400" />
+                <div>
+                  <strong className="block mb-0.5 uppercase tracking-wider text-[9px] text-white">Simulation Notice</strong>
+                  <p className="text-[11px] text-[#c8d0e2]/80">
+                    Interactive status demonstration — no live GPS is connected.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-8 glass rounded-3xl p-6 border border-[#91aae1]/16 bg-[#0c0e22]/80 flex flex-col items-center justify-center min-h-[340px] gap-4">
+              <div className="w-10 h-10 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-sm text-slate-400 text-center">Loading interactive tracker…</p>
+              <p className="text-xs text-slate-500 text-center">
+                Demo code: <span className="font-mono text-indigo-400">SGL-804219</span>
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-2 px-4 py-2 text-xs rounded-lg border border-[#91aae1]/16 bg-white/5 text-white hover:bg-white/10 transition-colors"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        }>
           <TrackingFormAndConsole />
         </Suspense>
       </div>

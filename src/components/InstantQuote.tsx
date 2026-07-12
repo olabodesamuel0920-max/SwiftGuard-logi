@@ -64,10 +64,10 @@ export default function InstantQuote() {
             ESTIMATION DECK
           </span>
           <h2 className="font-space text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-1">
-            Instant Quote Terminal
+            Delivery Estimate
           </h2>
           <p className="text-slate-400 text-sm mt-3">
-            Configure your delivery parameters to calculate a mock dispatch rate for the operating district.
+            Configure your delivery parameters to calculate a sample dispatch rate for the service area.
           </p>
         </div>
 

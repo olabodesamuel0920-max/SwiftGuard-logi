@@ -26,7 +26,7 @@ export default function FAQ() {
     },
     {
       q: "How do I schedule a Night Owl delivery?",
-      a: `Our Night Owl dispatch hours are subject to confirmation. Night Owl orders require advance scheduling through the booking form or direct contact with our team on WhatsApp.`,
+      a: `Selected after-hours delivery requests may be available. Coverage, operating hours and safety requirements are confirmed during booking. Contact us on WhatsApp to check availability.`,
     },
   ];
 

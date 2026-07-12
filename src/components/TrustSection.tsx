@@ -6,7 +6,7 @@ export default function TrustSection() {
     {
       icon: <ShieldAlert className="w-8 h-8 text-indigo-400" />,
       title: "Prohibited Cargo Guidelines",
-      description: "Standard safety check guidelines apply to all dispatch requests to ensure compliance. We maintain strict carriage restrictions on valuables and dangerous items.",
+      description: "Standard safety guidelines apply to all dispatch requests. Specific carriage restrictions are confirmed during booking."
     },
     {
       icon: <Route className="w-8 h-8 text-cyan-400" />,
@@ -15,12 +15,12 @@ export default function TrustSection() {
     },
     {
       icon: <MapPin className="w-8 h-8 text-[#70ffc6]" />,
-      title: "Terminal Checkpoints Demo",
+      title: "Delivery Status Preview",
       description: "View simulated progress milestone checkpoints tracking package transit stages in our terminal preview.",
     },
     {
       icon: <Moon className="w-8 h-8 text-pink-400" />,
-      title: "Nocturnal Dispatch Options",
+      title: "Night Delivery Options",
       description: "After-hours errands and delivery logistics parameters are evaluated and confirmed on demand during order booking.",
     },
   ];
